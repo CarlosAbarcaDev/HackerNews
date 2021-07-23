@@ -12,7 +12,10 @@ export function angularNewsList() {
 
     try {
       const response = await axiosClient.get('search_by_date?query=angular&page=0');
-      dispatch(dataAngularNews(response.data.hits));
+      let filteredResponse = response.data.hits.filter( function(news){
+        return news.story_title !== null && news.story_url && news.created_at;
+      });
+      dispatch(dataAngularNews(filteredResponse));
     } catch (error) {
       dispatch(dataAngularError);
     }

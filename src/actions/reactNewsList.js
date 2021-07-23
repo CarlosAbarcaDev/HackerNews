@@ -13,7 +13,10 @@ export function reactNewsList() {
   
       try {
         const response = await axiosClient.get('search_by_date?query=reactjs&page=0');
-        dispatch(dataReactNews(response.data.hits));
+        let filteredResponse = response.data.hits.filter( function(news){
+            return news.story_title !== null && news.story_url && news.created_at;
+          });
+        dispatch(dataReactNews(filteredResponse));
       } catch (error) {
         dispatch(dataReactError);
       }

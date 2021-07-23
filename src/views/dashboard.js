@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import ReactLoading from 'react-loading';
 import { useSelector, useDispatch } from "react-redux";
 import { angularNewsList } from "../actions/angularNewsList";
+import { reactNewsList } from "../actions/reactNewsList";
+import { vueNewsList } from "../actions/vueNewsList";
 import AllTab from "../components/allTab";
 import FavTab from "../components/favTab";
+
+
+
 const Dashboard = () => {
   const [allSelected, setAllSelected] = useState(true);
   const [favsSelected, setfavsSelected] = useState(false);
   const dispatch = useDispatch();
 
-  //angular news list
+  //angular news list at first loading
 useEffect(() =>{
   const angularNews = () => dispatch(angularNewsList())
   angularNews()
@@ -20,7 +25,26 @@ const newsList = useSelector(state => state.news.news);
 const error = useSelector(state => state.news.error);
 const loading = useSelector(state => state.news.loading);
 
+//option selected
+const onChangeOptions = e => {
+  const optionSelected = e.target.value;
 
+  if (optionSelected === 'angular') {
+    const angularNews = () => dispatch(angularNewsList())
+    angularNews()
+    
+  }
+  if (optionSelected === 'react') {
+    const reactNews = () => dispatch(reactNewsList())
+    reactNews()
+    
+  }
+  if (optionSelected === 'vue') {
+    const vueNews = () => dispatch(vueNewsList())
+    vueNews()
+    
+  }
+}
   return (
     <>
       <div className="button-container">
@@ -46,10 +70,11 @@ const loading = useSelector(state => state.news.loading);
 
       {allSelected ? (
         <>
-        <select name="select" className='select-box'>
-            <option value="value1">Value 1</option>
-            <option value="value2">Value 2</option>
-            <option value="value3">Value 3</option>
+        <select name="select" className='select-box' onChange={(e) => onChangeOptions(e)}>
+            <option value="">-- Choose an option --</option>
+            <option value="angular">Angular</option>
+            <option value="react">React</option>
+            <option value="vue">Vue</option>
           </select>
         <div className='loading-container'>
 
@@ -61,7 +86,7 @@ const loading = useSelector(state => state.news.loading);
           { newsList.length === 0 ? <h1>'There is no news at the moment'</h1> : (
             newsList.map( news =>(
               <AllTab 
-                key={news.parent_id}
+                key={news.author}
                 news={news}
               />
             ))
