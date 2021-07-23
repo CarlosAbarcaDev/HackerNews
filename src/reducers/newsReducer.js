@@ -3,6 +3,7 @@ import {
     ANGULAR_NEWS_INIT,
     ANGULAR_NEWS_SUCCESS,
     ANGULAR_NEWS_ERROR,
+    ANGULAR_NEWS_UPDATE,
     REACT_NEWS_INIT,
     REACT_NEWS_SUCCESS,
     REACT_NEWS_ERROR,
@@ -30,6 +31,11 @@ export default function(state = initialState, action){
                 loading: false,
                 error: false,
                 news: action.payload
+            }
+        case ANGULAR_NEWS_UPDATE:
+            return{
+                ...state,
+                news: [...news, action.payload]
             }
         case ANGULAR_NEWS_ERROR:
             return{

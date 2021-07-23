@@ -81,6 +81,11 @@ code {
   border-radius: 6px;
   border: solid 1px #979797;
   background-color: #ffffff;
+  cursor: pointer;
+}
+
+ a{
+  text-decoration: none;
 }
 
 .loading-container{

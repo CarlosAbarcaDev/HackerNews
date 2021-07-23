@@ -14,7 +14,7 @@ export function vueNewsList() {
       try {
         const response = await axiosClient.get('search_by_date?query=vuejs&page=0');
         let filteredResponse = response.data.hits.filter( function(news){
-            return news.story_title !== null && news.story_url && news.created_at;
+            return news.author !== null && news.story_title !== null && news.story_url && news.created_at;
           });
         dispatch(dataVueNews(filteredResponse));
       } catch (error) {
