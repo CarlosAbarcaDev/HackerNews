@@ -1,9 +1,9 @@
 import Logo from './assets/logo.png'
 const Header = () => {
     return ( 
-        <nav className='header'>
+        <div className='header'>
           <img src={Logo} alt='logo' />
-        </nav>
+        </div>
      );
 }
  
