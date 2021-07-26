@@ -8,8 +8,7 @@ const postAdded = (post) => {
 };
 export const saveFavorite = (post) => {
   const postsFavs = getFavList();
-
   postsFavs.push(post);
-
   postAdded(postsFavs);
 };
+

@@ -30,11 +30,11 @@ export function angularNewsList(page) {
   };
 }
 
-export function LoadMoreNews(page) {
+export function LoadMoreNews(page, option) {
   return async (dispatch) => {
     try {
       const response = await axiosClient.get(
-        `search_by_date?query=angular&page=${page}&hitsPerPage=10`
+        `search_by_date?query=${option}&page=${page}&hitsPerPage=10`
       );
       let filteredResponse = response.data.hits.filter(function (news) {
         return (

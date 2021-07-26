@@ -10,7 +10,8 @@ import FavTab from "../components/favTab";
 const Dashboard = () => {
   const [allSelected, setAllSelected] = useState(true);
   const [favsSelected, setfavsSelected] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
+  const [option, setOption] = useState("angular");
   const dispatch = useDispatch();
   const loader = useRef(null);
 
@@ -35,7 +36,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (page > 1) {
-      dispatch(LoadMoreNews(page));
+      dispatch(LoadMoreNews(page, option));
     }
   }, [page]);
 
@@ -52,7 +53,7 @@ const Dashboard = () => {
   //option selected
   const onChangeOptions = (e) => {
     const optionSelected = e.target.value;
-
+    setPage(0);
     if (optionSelected === "angular") {
       const angularNews = () => dispatch(angularNewsList(page));
       angularNews();
@@ -94,7 +95,10 @@ const Dashboard = () => {
           <select
             name="select"
             className="select-box"
-            onChange={(e) => onChangeOptions(e)}
+            onChange={(e) => {
+              onChangeOptions(e);
+              setOption(e.target.value);
+            }}
           >
             <option value="">-- Choose an option --</option>
             <option value="angular">Angular</option>
