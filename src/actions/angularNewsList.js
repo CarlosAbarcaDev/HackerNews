@@ -12,13 +12,39 @@ export function angularNewsList(page) {
     dispatch(newsListInit());
 
     try {
-      const response = await axiosClient.get(`search_by_date?query=angular&page=${page}`);
-      let filteredResponse = response.data.hits.filter( function(news){
-        return news.author !== null && news.story_title !== null && news.story_url && news.created_at;
+      const response = await axiosClient.get(
+        `search_by_date?query=angular&page=${page}&hitsPerPage=10`
+      );
+      let filteredResponse = response.data.hits.filter(function (news) {
+        return (
+          news.author !== null &&
+          news.story_title !== null &&
+          news.story_url &&
+          news.created_at
+        );
       });
-      // dispatch(dataAngularNews(filteredResponse));
-      dispatch(moreNews(filteredResponse));
+      dispatch(dataAngularNews(filteredResponse));
+    } catch (error) {
+      dispatch(dataAngularError);
+    }
+  };
+}
 
+export function LoadMoreNews(page) {
+  return async (dispatch) => {
+    try {
+      const response = await axiosClient.get(
+        `search_by_date?query=angular&page=${page}&hitsPerPage=10`
+      );
+      let filteredResponse = response.data.hits.filter(function (news) {
+        return (
+          news.author !== null &&
+          news.story_title !== null &&
+          news.story_url &&
+          news.created_at
+        );
+      });
+      dispatch(moreNews(filteredResponse));
     } catch (error) {
       dispatch(dataAngularError);
     }
@@ -40,7 +66,7 @@ const dataAngularError = () => ({
   payload: true,
 });
 
-const moreNews = (news) =>({
+const moreNews = (news) => ({
   type: ANGULAR_NEWS_UPDATE,
-  payload: news
-})
+  payload: news,
+});

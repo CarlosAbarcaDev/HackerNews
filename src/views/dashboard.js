@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import ReactLoading from "react-loading";
 import { useSelector, useDispatch } from "react-redux";
-import { angularNewsList } from "../actions/angularNewsList";
+import { angularNewsList, LoadMoreNews } from "../actions/angularNewsList";
 import { reactNewsList } from "../actions/reactNewsList";
 import { vueNewsList } from "../actions/vueNewsList";
 import AllTab from "../components/allTab";
@@ -12,6 +12,20 @@ const Dashboard = () => {
   const [favsSelected, setfavsSelected] = useState(false);
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
+  const loader = useRef(null);
+
+  //global state
+  const newsList = useSelector((state) => state.news.news);
+  const error = useSelector((state) => state.news.error);
+  const loading = useSelector((state) => state.news.loading);
+
+  const handleObserver = useCallback((entries) => {
+    const target = entries[0];
+
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
+  }, []);
 
   //angular news list at first loading
   useEffect(() => {
@@ -19,25 +33,21 @@ const Dashboard = () => {
     angularNews();
   }, []);
 
-  //global state
-  const newsList = useSelector((state) => state.news.news);
-  const error = useSelector((state) => state.news.error);
-  const loading = useSelector((state) => state.news.loading);
+  useEffect(() => {
+    if (page > 1) {
+      dispatch(LoadMoreNews(page));
+    }
+  }, [page]);
 
-  // set page to infinity scroll
-  const observer = useRef();
-  const lastPost = useCallback((node) => {
-    if (observer.current) observer.current.disconnect();
-
-    observer.current = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        console.log('visible');
-        setPage( prevPage => prevPage + 1 );
-      }
-    });
-
-    if (node) observer.current.observe(node);
-  }, []);
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: "20px",
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+  }, [handleObserver]);
 
   //option selected
   const onChangeOptions = (e) => {
@@ -107,21 +117,12 @@ const Dashboard = () => {
               <h1>'There is no more news at the moment'</h1>
             ) : (
               <>
-                {newsList.map((news, index) => {
-                  if (newsList.length === index + 1) {
-                    return (
-                      <AllTab
-                        key={news.author}
-                        news={news}
-                        lastPost={lastPost}
-                      />
-                    );
-                  } else {
-                    return <AllTab key={news.author} news={news} />;
-                  }
+                {newsList.map((news) => {
+                  return <AllTab key={news.objectID} news={news} />;
                 })}
               </>
             )}
+            <div ref={loader} />
           </div>
         </>
       ) : (

@@ -24,8 +24,7 @@ code {
 }
 
 .header {
-  height: 114px;
-  padding: 44px 1082px 42px 150px;
+  padding: 50px;
   box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
   background-image: linear-gradient(to bottom, #ececec -32%, #ffffff 124%);
 }
@@ -36,7 +35,7 @@ code {
   margin-top: 70px;
 }
 
-.button-tab{
+.button-tab {
   width: 140px;
   height: 33px;
   padding: 3px 39px 0 40px;
@@ -44,7 +43,7 @@ code {
   border: solid 1px #d6d6d6;
 }
 
-.button-tab-selected{
+.button-tab-selected {
   width: 140px;
   height: 33px;
   padding: 3px 39px 0 40px;
@@ -53,16 +52,24 @@ code {
   background-color: white;
 }
 
-.container{
+.container {
   max-width: 1400px;
   width: 95%;
-  margin: 4rem auto 0 auto;
+  margin: 0 auto 0 auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 3rem;
+  row-gap: 3rem;
 }
 
-.select-box{
+@media (max-width: 1400px) {
+  .container {
+    max-width: 100%;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.select-box {
   width: 240px;
   height: 32px;
   margin: 63px auto 1px 130px;
@@ -72,33 +79,40 @@ code {
   background-color: #ffffff;
 }
 
-.container-news{
-  width: 550px;
-  height: 90px;
-  margin: 10px auto 30px auto;
+.container-news {
+  width: 100%;
+  height: auto;
+  margin-top: 2rem;
   padding: 0 0 0 26px;
   opacity: 0.8;
   border-radius: 6px;
   border: solid 1px #979797;
   background-color: #ffffff;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
- a{
+a {
   text-decoration: none;
 }
 
-.loading-container{
+.loading-container {
   display: flex;
   justify-content: center;
 }
 
-.time-row{
+.time-row {
   margin-top: 15px;
   display: flex;
 }
 
-.row-content{
+.time{
+  display: flex;
+}
+
+.row-content {
   width: 440px;
   height: 40px;
   margin: 6px 16px 14px 0;
@@ -112,16 +126,23 @@ code {
   color: #222121;
 }
 
-.time-row h2{
-    height: 13px;
-    margin: 2px 0 7px 8px;
-    font-family: Roboto;
-    font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #767676;
+.time h2 {
+  height: 13px;
+  margin: 2px 0 7px 8px;
+  font-family: Roboto;
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #767676;
 }
 
+.favorites{
+  padding: 20px;
+  background-color: #e6e4e4;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
